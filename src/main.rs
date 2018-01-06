@@ -5,8 +5,11 @@ use std::env;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let (query, filename) = myrustminigrep::grab_args(&args);
+    let config = myrustminigrep::args::parse_config(&args);
 
-    println!("Searching for: {}", query);
-    println!("In file: {}", filename);
+    println!("Searching for: {}", config.query);
+    println!("In file: {}", config.filename);
+
+    let con = myrustminigrep::file_utils::read_file(config.filename);
+    println!("With contents:\n{}", con);
 }
