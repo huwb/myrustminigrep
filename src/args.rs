@@ -3,12 +3,6 @@ pub struct Config<'a> {
     pub filename: &'a String,
 }
 
-impl<'a> Config<'a> {
-    fn new(query: &'a String, filename: &'a String) -> Config<'a> {
-        Config { query, filename }
-    }
-}
-
 pub fn parse_config(args: &Vec<String>) -> Config {
     assert_eq!(
         args.len(),
@@ -16,7 +10,10 @@ pub fn parse_config(args: &Vec<String>) -> Config {
         "Two arguments expected: myrustminigrep <query> <filename>"
     );
 
-    Config::new(&args[1], &args[2])
+    let query = &args[1];
+    let filename = &args[2];
+
+    Config { query, filename }
 }
 
 #[cfg(test)]
