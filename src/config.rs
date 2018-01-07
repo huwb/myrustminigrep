@@ -1,6 +1,6 @@
 //! Module for generating configuration from input args
  
-/// Config for grep
+/// Configuration data
 pub struct Config<'a> {
     pub query: &'a String,
     pub filename: &'a String,
@@ -12,7 +12,7 @@ impl<'a> Config<'a> {
     /// # Examples
     ///
     /// ```
-    /// use myrustminigrep::args::Config;
+    /// use myrustminigrep::config::Config;
     ///
     /// fn main() {
     ///     let args = vec![

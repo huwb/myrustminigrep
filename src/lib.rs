@@ -1,11 +1,11 @@
-pub mod args;
+pub mod config;
 
 use std::fs::File;
 use std::io::prelude::*;
 use std::error::Error;
 
 /// Primary entry point
-pub fn run(config: &args::Config) -> Result<(), Box<Error>> {
+pub fn run(config: &config::Config) -> Result<(), Box<Error>> {
     let mut f = File::open(config.filename)?;
 
     let mut contents = String::new();
