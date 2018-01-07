@@ -7,12 +7,12 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let config = myrustminigrep::args::Config::new(&args).unwrap_or_else(|err| {
-        println!("Error occurred while reading config: {}", err);
+        eprintln!("Error occurred while reading config: {}", err);
         process::exit(1);
     });
 
     if let Err(e) = myrustminigrep::run(&config) {
-        println!("Application error: {}", e);
+        eprintln!("Application error: {}", e);
         process::exit(1);
     }
 }
