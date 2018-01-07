@@ -4,17 +4,12 @@ pub struct Config<'a> {
 }
 
 impl<'a> Config<'a> {
-    pub fn new(args: &'a Vec<String>) -> Config<'a> {
-        assert_eq!(
-            args.len(),
-            3,
-            "Two arguments expected: myrustminigrep <query> <filename>"
-        );
-
-        let query = &args[1];
-        let filename = &args[2];
-
-        Config { query, filename }
+    pub fn new(args: &'a Vec<String>) -> Result<Config<'a>, &'static str> {
+        match args.len() {
+            3 => Ok(Config { query: &args[1], filename: &args[2] }),
+            i if i < 3 => return Err("not enough arguments"),
+            _ => return Err("too many arguments"),
+        }
     }
 }
 
@@ -30,10 +25,10 @@ mod tests {
             String::from("haystack.txt"),
         ];
 
-        let config = Config::new(&args);
+        let config = Config::new(&args).unwrap();
 
-        assert_eq!(config.query, &args[1]);
-        assert_eq!(config.filename, &args[2]);
+        assert_eq!(config.query, &args[1], "query config incorrect");
+        assert_eq!(config.filename, &args[2], "filename config incorrect");
     }
 
     #[test]
@@ -41,7 +36,7 @@ mod tests {
     fn test_grab_args_insufficient() {
         let args = vec![String::from("execname"), String::from("needle")];
 
-        Config::new(&args);
+        Config::new(&args).unwrap();
     }
 
     #[test]
@@ -54,12 +49,12 @@ mod tests {
             String::from("overflow"),
         ];
 
-        Config::new(&args);
+        Config::new(&args).unwrap();
     }
 
-    #[test]
-    #[should_panic]
-    fn test_grab_args_none() {
-        Config::new(&vec![]);
-    }
+        #[test]
+        #[should_panic]
+        fn test_grab_args_none() {
+            Config::new(&vec![]).unwrap();
+        }
 }
