@@ -72,6 +72,24 @@ Rust:
 Safe, fast, productive.
 Pick three.";
 
-        assert_eq!(vec!["Safe, fast, productive."], search(query, contents).unwrap());
+        assert_eq!(
+            vec!["Safe, fast, productive."],
+            search(query, contents).unwrap()
+        );
+    }
+
+    #[test]
+    fn two_results() {
+        let query = "hen";
+        let contents = "\
+Then hen was returned once
+HENs was not
+chickens was not
+only the two hens
+";
+        assert_eq!(
+            vec!["Then hen was returned once", "only the two hens"],
+            search(query, contents).unwrap()
+        );
     }
 }
