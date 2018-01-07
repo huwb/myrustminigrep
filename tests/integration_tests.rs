@@ -17,7 +17,8 @@ fn missing_file() {
         ];
 
         let config = myrustminigrep::args::Config::new(&args).unwrap();
-
+        
+        // this should panic as file is missing
         myrustminigrep::run(&config).unwrap();
     } else {
         println!(

@@ -1,9 +1,32 @@
+//! Module for generating configuration from input args
+ 
+/// Config for grep
 pub struct Config<'a> {
     pub query: &'a String,
     pub filename: &'a String,
 }
 
 impl<'a> Config<'a> {
+    /// Create config from given args
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use myrustminigrep::args::Config;
+    ///
+    /// fn main() {
+    ///     let args = vec![
+    ///         String::from("execname"),
+    ///         String::from("needle"),
+    ///         String::from("haystack.txt"),
+    ///     ];
+    ///
+    ///     let config = Config::new(&args).unwrap();
+    /// 
+    ///     assert_eq!(config.query, &args[1], "query config incorrect");
+    ///     assert_eq!(config.filename, &args[2], "filename config incorrect");
+    /// }
+    /// ```
     pub fn new(args: &'a Vec<String>) -> Result<Config<'a>, &'static str> {
         match args.len() {
             3 => Ok(Config {
@@ -19,20 +42,6 @@ impl<'a> Config<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_grab_args() {
-        let args = vec![
-            String::from("execname"),
-            String::from("needle"),
-            String::from("haystack.txt"),
-        ];
-
-        let config = Config::new(&args).unwrap();
-
-        assert_eq!(config.query, &args[1], "query config incorrect");
-        assert_eq!(config.filename, &args[2], "filename config incorrect");
-    }
 
     #[test]
     #[should_panic]
