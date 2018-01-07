@@ -24,15 +24,12 @@ fn search<'a>(query: &'a str, contents: &'a str) -> Result<Vec<&'a str>, &'stati
         return Err("query is empty");
     }
 
-    let mut result: Vec<&str> = Vec::new();
-
-    for l in contents.lines() {
-        if l.contains(query) {
-            result.push(&l);
-        }
-    }
-
-    Ok(result)
+    Ok(
+        contents
+            .lines()
+            .filter(|line| line.contains(query))
+            .collect(),
+    )
 }
 
 #[cfg(test)]
