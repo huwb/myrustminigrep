@@ -9,7 +9,7 @@ fn missing_file() {
     let nonexistant_filename = String::from("i_dont_exist.txt");
 
     // only execute this test if the file does not exist!
-    if let Err(_) = File::open(&nonexistant_filename) {
+    if File::open(&nonexistant_filename).is_err() {
         let args: Vec<String> = vec![
             String::from("execname"),
             String::from("query"),
