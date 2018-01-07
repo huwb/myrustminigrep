@@ -1,12 +1,16 @@
 pub mod args;
-pub mod file_utils;
 
+use std::fs::File;
+use std::io::prelude::*;
 use std::error::Error;
 
 pub fn run(config: &args::Config) -> Result<(), Box<Error>> {
-    let con = file_utils::read_file(config.filename)?;
+    let mut f = File::open(config.filename)?;
 
-    let results = search(&config.query[..], &con[..])?;
+    let mut contents = String::new();
+    f.read_to_string(&mut contents)?;
+
+    let results = search(&config.query, &contents)?;
 
     for result in results {
         println!("{}", result);
