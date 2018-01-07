@@ -3,17 +3,19 @@ pub struct Config<'a> {
     pub filename: &'a String,
 }
 
-pub fn parse_config(args: &Vec<String>) -> Config {
-    assert_eq!(
-        args.len(),
-        3,
-        "Two arguments expected: myrustminigrep <query> <filename>"
-    );
+impl<'a> Config<'a> {
+    pub fn new(args: &'a Vec<String>) -> Config<'a> {
+        assert_eq!(
+            args.len(),
+            3,
+            "Two arguments expected: myrustminigrep <query> <filename>"
+        );
 
-    let query = &args[1];
-    let filename = &args[2];
+        let query = &args[1];
+        let filename = &args[2];
 
-    Config { query, filename }
+        Config { query, filename }
+    }
 }
 
 #[cfg(test)]
@@ -28,7 +30,7 @@ mod tests {
             String::from("haystack.txt"),
         ];
 
-        let config = parse_config(&args);
+        let config = Config::new(&args);
 
         assert_eq!(config.query, &args[1]);
         assert_eq!(config.filename, &args[2]);
@@ -39,7 +41,7 @@ mod tests {
     fn test_grab_args_insufficient() {
         let args = vec![String::from("execname"), String::from("needle")];
 
-        parse_config(&args);
+        Config::new(&args);
     }
 
     #[test]
@@ -52,12 +54,12 @@ mod tests {
             String::from("overflow"),
         ];
 
-        parse_config(&args);
+        Config::new(&args);
     }
 
     #[test]
     #[should_panic]
     fn test_grab_args_none() {
-        parse_config(&vec![]);
+        Config::new(&vec![]);
     }
 }
