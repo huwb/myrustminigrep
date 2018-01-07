@@ -6,7 +6,10 @@ pub struct Config<'a> {
 impl<'a> Config<'a> {
     pub fn new(args: &'a Vec<String>) -> Result<Config<'a>, &'static str> {
         match args.len() {
-            3 => Ok(Config { query: &args[1], filename: &args[2] }),
+            3 => Ok(Config {
+                query: &args[1],
+                filename: &args[2],
+            }),
             i if i < 3 => return Err("not enough arguments"),
             _ => return Err("too many arguments"),
         }
@@ -52,9 +55,9 @@ mod tests {
         Config::new(&args).unwrap();
     }
 
-        #[test]
-        #[should_panic]
-        fn test_grab_args_none() {
-            Config::new(&vec![]).unwrap();
-        }
+    #[test]
+    #[should_panic]
+    fn test_grab_args_none() {
+        Config::new(&vec![]).unwrap();
+    }
 }
